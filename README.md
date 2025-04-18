@@ -24,7 +24,7 @@ A Telegram bot that uses AI to understand natural language and create events in 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ai_calendar_bot.git
+git clone https://github.com/norouzigorji/ai_calendar_bot.git
 cd ai_calendar_bot
 ```
 
