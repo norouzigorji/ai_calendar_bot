@@ -12,16 +12,26 @@ A Telegram bot that uses AI to understand natural language and create events in 
 - Smart time and date extraction
 - Persian language support
 - User-specific calendar management
+- Support for both local and Google Colab environments
 
 ## Prerequisites
 
+### For Local Installation:
 - Python 3.8 or higher
 - Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
 - Google API credentials
 - Ollama installed and running locally
 - Persian language model (mshojaei77/gemma3persian) pulled in Ollama
 
+### For Google Colab:
+- Google Account
+- Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
+- Google API credentials
+- Access to Google Colab
+
 ## Setup
+
+### Local Installation:
 
 1. Install Ollama:
    - Download and install Ollama from [ollama.ai](https://ollama.ai)
@@ -83,7 +93,23 @@ TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 - Create OAuth 2.0 credentials
 - Download the credentials and save as `credentials.json` in the project root
 
+### Google Colab Setup:
+
+1. Open the [Google Colab Notebook](https://colab.research.google.com/)
+
+2. Upload the notebook file (`ai_calendar_bot_colab.ipynb`) to your Google Drive
+
+3. Open the notebook in Google Colab
+
+4. Follow the instructions in the notebook to:
+   - Install dependencies
+   - Set up your Telegram bot token
+   - Upload your Google Calendar credentials
+   - Run the bot
+
 ## Usage
+
+### Local Usage:
 
 1. Make sure your virtual environment is activated
 
@@ -99,6 +125,18 @@ python main.py
 - "یادآوری کن که فردا ساعت ۳ بعدازظهر با دکتر ملاقات دارم"
 - "برای شنبه هفته بعد ساعت ۱۰ صبح یک جلسه کاری تنظیم کن"
 
+### Google Colab Usage:
+
+1. Open the notebook in Google Colab
+
+2. Run each cell in sequence
+
+3. When prompted:
+   - Enter your Telegram bot token
+   - Upload your Google Calendar credentials file
+
+4. The bot will start running in the Colab environment
+
 ## Project Structure
 
 ```
@@ -109,6 +147,7 @@ ai_calendar_bot/
 ├── event_extractor.py      # AI-powered event extraction using Ollama
 ├── credentials.json        # Google API credentials
 ├── requirements.txt        # Python dependencies
+├── ai_calendar_bot_colab.ipynb  # Google Colab notebook version
 └── tokens/                 # User-specific OAuth tokens
 ```
 
@@ -117,6 +156,7 @@ ai_calendar_bot/
 - Never share your `credentials.json` or `.env` files
 - Keep your API keys secure
 - The `tokens` directory contains sensitive user data and should be properly secured
+- When using Google Colab, be careful with your credentials and tokens
 
 ## License
 
