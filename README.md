@@ -36,18 +36,47 @@ git clone https://github.com/norouzigorji/ai_calendar_bot.git
 cd ai_calendar_bot
 ```
 
-3. Install dependencies:
+3. Create and activate virtual environment:
+
+   **Linux/MacOS:**
+   ```bash
+   # Create virtual environment
+   python3 -m venv venv
+   
+   # Activate virtual environment
+   source venv/bin/activate
+   ```
+
+   **Windows (Command Prompt):**
+   ```cmd
+   # Create virtual environment
+   python -m venv venv
+   
+   # Activate virtual environment
+   venv\Scripts\activate
+   ```
+
+   **Windows (PowerShell):**
+   ```powershell
+   # Create virtual environment
+   python -m venv venv
+   
+   # Activate virtual environment
+   .\venv\Scripts\Activate.ps1
+   ```
+
+4. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Set up environment variables:
+5. Set up environment variables:
 Create a `.env` file in the project root with the following variables:
 ```
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 ```
 
-5. Set up Google Calendar API:
+6. Set up Google Calendar API:
 - Go to the [Google Cloud Console](https://console.cloud.google.com/)
 - Create a new project
 - Enable the Google Calendar API
@@ -56,14 +85,16 @@ TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 
 ## Usage
 
-1. Start the bot:
+1. Make sure your virtual environment is activated
+
+2. Start the bot:
 ```bash
 python main.py
 ```
 
-2. Open Telegram and start a conversation with your bot
+3. Open Telegram and start a conversation with your bot
 
-3. Send messages in natural language to create events. Examples:
+4. Send messages in natural language to create events. Examples:
 - "برای فردا ساعت ۱۱ یک جلسه با تیم برنامه‌نویسی تنظیم کن"
 - "یادآوری کن که فردا ساعت ۳ بعدازظهر با دکتر ملاقات دارم"
 - "برای شنبه هفته بعد ساعت ۱۰ صبح یک جلسه کاری تنظیم کن"
