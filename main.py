@@ -51,6 +51,12 @@ class CalendarBot:
         logger.info(f"Message received from user {user_id}: {user_message}")
 
         try:
+            # First, inform the user that processing could take a while
+            await update.message.reply_text(
+                "در حال پردازش پیام شما و استخراج اطلاعات رویداد...\n"
+                "با توجه به محدودیت‌های سخت‌افزاری، این فرایند ممکن است چند دقیقه طول بکشد. لطفاً صبور باشید."
+            )
+            
             # Extract event details using the event extractor
             logger.debug("Starting event extraction process")
             event_details = await self.event_extractor.extract_event_details(user_message)
@@ -59,11 +65,17 @@ class CalendarBot:
                 logger.warning(f"Failed to extract event details for user {user_id}")
                 await update.message.reply_text(
                     "متأسفانه نتوانستم اطلاعات رویداد را از پیام شما استخراج کنم. "
-                    "لطفاً دوباره با جزئیات بیشتر توضیح دهید."
+                    "لطفاً دوباره با جزئیات بیشتر توضیح دهید.\n"
+                    "برای مثال: 'برای فردا ساعت ۱۸ یک جلسه با عنوان جلسه هفتگی تنظیم کن'"
                 )
                 return
 
             logger.info(f"Event details extracted successfully: {event_details}")
+            
+            # Inform user that we're now creating the calendar event
+            await update.message.reply_text(
+                "اطلاعات رویداد با موفقیت استخراج شد. در حال ثبت رویداد در تقویم..."
+            )
 
             # Create the event in Google Calendar
             logger.debug("Attempting to create event in Google Calendar")
