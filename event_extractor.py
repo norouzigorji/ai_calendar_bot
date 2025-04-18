@@ -1,24 +1,16 @@
 import os
 from datetime import datetime, timedelta
-import google.generativeai as genai
+from langchain.llms import Ollama
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.agents import Tool, AgentExecutor, LLMSingleActionAgent
-from langchain.schema import AgentAction, AgentFinish
 from typing import Dict, Any, Optional
 
 class EventExtractor:
     def __init__(self):
-        # Initialize Gemini
-        genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
-        self.model = genai.GenerativeModel('gemini-pro')
-        
-        # Initialize LangChain with Gemini
-        self.llm = ChatGoogleGenerativeAI(
-            model="gemini-pro",
-            google_api_key=os.getenv('GOOGLE_API_KEY'),
-            temperature=0.7
+        # Initialize Ollama with Persian model
+        self.llm = Ollama(
+            model="mshojaei77/gemma3persian",
+            base_url="http://localhost:11434"
         )
 
     async def get_current_time(self) -> str:
@@ -30,13 +22,13 @@ class EventExtractor:
         try:
             # First, determine if we need current time
             time_check_prompt = f"""
-            Analyze if the following message requires the current time to understand the event timing:
+            تحلیل کن که آیا پیام زیر برای درک زمان رویداد نیاز به زمان فعلی دارد:
             "{message}"
-            Respond with only 'yes' or 'no'.
+            فقط با "بله" یا "خیر" پاسخ بده.
             """
             
-            time_check_response = self.model.generate_content(time_check_prompt)
-            needs_current_time = time_check_response.text.strip().lower() == 'yes'
+            time_check_response = self.llm(time_check_prompt)
+            needs_current_time = "بله" in time_check_response.strip()
             
             current_time = await self.get_current_time() if needs_current_time else None
             
@@ -44,18 +36,18 @@ class EventExtractor:
             extraction_prompt = PromptTemplate(
                 input_variables=["message", "current_time"],
                 template="""
-                Extract event details from the following message. If current_time is provided, use it as reference.
+                اطلاعات رویداد را از پیام زیر استخراج کن. اگر زمان فعلی داده شده، از آن به عنوان مرجع استفاده کن.
                 
-                Message: {message}
-                Current Time: {current_time}
+                پیام: {message}
+                زمان فعلی: {current_time}
                 
-                Extract the following information in JSON format:
-                - summary: The title/description of the event
-                - start_time: The start time in YYYY-MM-DD HH:MM format
-                - end_time: The end time in YYYY-MM-DD HH:MM format (default to 1 hour after start if not specified)
-                - description: Any additional details about the event
+                اطلاعات زیر را به صورت JSON استخراج کن:
+                - summary: عنوان/توضیحات رویداد
+                - start_time: زمان شروع به فرمت YYYY-MM-DD HH:MM
+                - end_time: زمان پایان به فرمت YYYY-MM-DD HH:MM (اگر مشخص نشده، یک ساعت بعد از زمان شروع در نظر بگیر)
+                - description: جزئیات اضافی رویداد
                 
-                If any information is missing or unclear, return null for that field.
+                اگر هر اطلاعاتی نامشخص یا ناقص است، برای آن فیلد null قرار بده.
                 """
             )
             

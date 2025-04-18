@@ -7,7 +7,7 @@ A Telegram bot that uses AI to understand natural language and create events in 
 
 ## Features
 
-- Natural language processing for event creation
+- Natural language processing for event creation using Ollama and Persian language model
 - Integration with Google Calendar
 - Smart time and date extraction
 - Persian language support
@@ -18,29 +18,36 @@ A Telegram bot that uses AI to understand natural language and create events in 
 - Python 3.8 or higher
 - Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
 - Google API credentials
-- Gemini API key
+- Ollama installed and running locally
+- Persian language model (mshojaei77/gemma3persian) pulled in Ollama
 
 ## Setup
 
-1. Clone the repository:
+1. Install Ollama:
+   - Download and install Ollama from [ollama.ai](https://ollama.ai)
+   - Pull the Persian language model:
+     ```bash
+     ollama pull mshojaei77/gemma3persian
+     ```
+
+2. Clone the repository:
 ```bash
 git clone https://github.com/norouzigorji/ai_calendar_bot.git
 cd ai_calendar_bot
 ```
 
-2. Install dependencies:
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables:
+4. Set up environment variables:
 Create a `.env` file in the project root with the following variables:
 ```
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-GOOGLE_API_KEY=your_gemini_api_key
 ```
 
-4. Set up Google Calendar API:
+5. Set up Google Calendar API:
 - Go to the [Google Cloud Console](https://console.cloud.google.com/)
 - Create a new project
 - Enable the Google Calendar API
@@ -68,7 +75,7 @@ ai_calendar_bot/
 │
 ├── main.py                 # Main bot implementation
 ├── calendar_utils.py       # Google Calendar integration
-├── event_extractor.py      # AI-powered event extraction
+├── event_extractor.py      # AI-powered event extraction using Ollama
 ├── credentials.json        # Google API credentials
 ├── requirements.txt        # Python dependencies
 └── tokens/                 # User-specific OAuth tokens
